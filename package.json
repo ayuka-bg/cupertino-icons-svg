@@ -23,16 +23,21 @@
     "icon-pack"
   ],
   "type": "module",
-  "main": "icons.json",
+  "main": "index.js",
+  "types": "index.d.ts",
   "files": [
     "svg/",
+    "icons/",
+    "index.js",
+    "index.d.ts",
     "icons.json",
     "README.md",
     "LICENSE",
     "package.json"
   ],
   "scripts": {
-    "build": "node scripts/extract-svgs.mjs",
+    "build": "node scripts/extract-svgs.mjs && node scripts/generate-icon-exports.mjs",
+    "generate": "node scripts/generate-icon-exports.mjs",
     "dev": "node scripts/serve.mjs"
   },
   "devDependencies": {
@@ -40,8 +45,9 @@
     "open": "^10.0.0"
   },
   "exports": {
-    ".": "./icons.json",
+    ".": "./index.js",
     "./icons.json": "./icons.json",
-    "./svg/*": "./svg/*"
+    "./svg/*": "./svg/*",
+    "./*": "./icons/*.js"
   }
 }

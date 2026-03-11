@@ -77,6 +77,8 @@ function glyphToSvg(font, glyph) {
   const vbY = round2(cy - side / 2);
   const vbSide = round2(side);
 
+  // Root has fill="currentColor" so CSS color on a parent controls the icon.
+  // Inner nodes have no fill so they inherit from the root.
   return [
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vbX} ${vbY} ${vbSide} ${vbSide}" fill="currentColor">`,
     `  <path d="${d.trim()}"/>`,

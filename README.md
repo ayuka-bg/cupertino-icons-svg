@@ -12,24 +12,49 @@ npm install cupertino-icons-svg
 
 ### Usage
 
-Use directly as static assets:
+**Named imports (barrel)** — one place, good for autocomplete; tree-shaking keeps bundles small:
+
+```js
+import { HeartFill, Airplane } from 'cupertino-icons-svg';
+
+// e.g. in React
+export function Example() {
+  return (
+    <>
+      <img src={HeartFill} alt="heart" />
+      <img src={Airplane} alt="airplane" />
+    </>
+  );
+}
+```
+
+**Deep imports** — one icon per import; only the icons you use are loaded:
+
+```js
+import HeartFill from 'cupertino-icons-svg/HeartFill';
+
+export function Example() {
+  return <img src={HeartFill} alt="heart" />;
+}
+```
+
+Icon names are **PascalCase** (e.g. `HeartFill`, `ArrowClockwise`). The package default export is the icon manifest (same as `icons.json`):
+
+```js
+import iconManifest from 'cupertino-icons-svg';
+// iconManifest['heart_fill'] === 'svg/heart_fill.svg'
+```
+
+You can also use raw SVG paths or import a specific file:
 
 ```html
 <img src="node_modules/cupertino-icons-svg/svg/heart_fill.svg" alt="heart" />
 ```
 
-With bundlers that support importing SVGs:
-
 ```js
 import heartFill from 'cupertino-icons-svg/svg/heart_fill.svg';
-
-// e.g. in React
-export function Example() {
-  return <img src={heartFill} alt="heart" />;
-}
+return <img src={heartFill} alt="heart" />;
 ```
-
-You can also inspect `icons.json` for a machine-readable manifest of all icon names and their SVG paths.
 
 ### Icon gallery
 

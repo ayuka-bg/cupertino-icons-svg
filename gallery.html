@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cupertino Icons SVG – Gallery</title>
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --card: #fff;
+      --text: #1d1d1f;
+      --text-muted: #6e6e73;
+      --border: #d2d2d7;
+      --accent: #0071e3;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 1.5rem;
+    }
+    header {
+      max-width: 1200px;
+      margin: 0 auto 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+    }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    .search-wrap {
+      flex: 1;
+      min-width: 200px;
+      position: relative;
+    }
+    .search-wrap input {
+      width: 100%;
+      padding: 0.5rem 0.75rem 0.5rem 2rem;
+      font-size: 0.9375rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--card);
+      color: var(--text);
+    }
+    .search-wrap input::placeholder { color: var(--text-muted); }
+    .search-wrap input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
+    }
+    .search-wrap::before {
+      content: "";
+      position: absolute;
+      left: 0.65rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236e6e73'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'/%3E%3C/svg%3E") center/contain no-repeat;
+    }
+    .meta {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+    .grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 0.75rem;
+    }
+    .cell {
+      background: var(--card);
+      border-radius: 10px;
+      padding: 0.75rem;
+      text-align: center;
+      border: 1px solid transparent;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      min-width: 0;
+    }
+    .cell:hover {
+      border-color: var(--border);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .cell .icon-wrap {
+      width: 40px;
+      height: 40px;
+      margin: 0 auto 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cell img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      color: var(--text);
+    }
+    .cell .name {
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+      line-height: 1.25;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      display: block;
+      min-height: 2.5em;
+    }
+    .cell.hidden { display: none; }
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Cupertino Icons SVG</h1>
+    <div class="search-wrap">
+      <input type="search" id="search" placeholder="Search icons…" autocomplete="off" />
+    </div>
+    <span class="meta" id="meta">Loading…</span>
+  </header>
+  <div class="grid" id="grid"></div>
+
+  <script>
+    const searchEl = document.getElementById("search");
+    const gridEl = document.getElementById("grid");
+    const metaEl = document.getElementById("meta");
+
+    let icons = [];
+
+    function render(entries) {
+      gridEl.innerHTML = "";
+      if (entries.length === 0) {
+        gridEl.innerHTML = '<p class="empty">No icons match your search.</p>';
+        return;
+      }
+      entries.forEach(({ name, path }) => {
+        const cell = document.createElement("div");
+        cell.className = "cell";
+        cell.dataset.name = name;
+        const iconWrap = document.createElement("div");
+        iconWrap.className = "icon-wrap";
+        const img = document.createElement("img");
+        img.src = path;
+        img.alt = name;
+        img.loading = "lazy";
+        iconWrap.appendChild(img);
+        const label = document.createElement("span");
+        label.className = "name";
+        label.textContent = name;
+        label.title = name;
+        cell.appendChild(iconWrap);
+        cell.appendChild(label);
+        gridEl.appendChild(cell);
+      });
+    }
+
+    function filter() {
+      const q = searchEl.value.trim().toLowerCase();
+      const filtered = q
+        ? icons.filter(({ name }) => name.includes(q))
+        : icons;
+      render(filtered);
+      metaEl.textContent = filtered.length === icons.length
+        ? `${icons.length} icons`
+        : `${filtered.length} of ${icons.length} icons`;
+    }
+
+    searchEl.addEventListener("input", filter);
+
+    fetch("icons.json")
+      .then((r) => r.json())
+      .then((obj) => {
+        icons = Object.entries(obj).map(([name, path]) => ({ name, path }));
+        render(icons);
+        metaEl.textContent = `${icons.length} icons`;
+      })
+      .catch(() => {
+        metaEl.textContent = "Could not load icons.json. Run from a local server (e.g. npm run gallery).";
+      });
+  </script>
+</body>
+</html>

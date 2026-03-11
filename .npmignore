@@ -1,0 +1,6 @@
+cupertino_icons-1.0.8/
+scripts/
+node_modules/
+npm-debug.log*
+.DS_Store
+

@@ -1,0 +1,46 @@
+{
+  "name": "cupertino-icons-svg",
+  "version": "0.1.0",
+  "description": "Cupertino Icons (Apple-style SF Symbols) as individual SVG files for web and JS bundlers.",
+  "license": "MIT",
+  "author": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "homepage": "",
+  "bugs": {
+    "url": ""
+  },
+  "keywords": [
+    "cupertino",
+    "icons",
+    "svg",
+    "apple",
+    "sf-symbols",
+    "flutter",
+    "web",
+    "icon-pack"
+  ],
+  "type": "module",
+  "main": "icons.json",
+  "files": [
+    "svg/",
+    "icons.json",
+    "README.md",
+    "LICENSE",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "node scripts/extract-svgs.mjs",
+    "gallery": "npx serve . -p 3333"
+  },
+  "devDependencies": {
+    "opentype.js": "^1.3.4"
+  },
+  "exports": {
+    ".": "./icons.json",
+    "./icons.json": "./icons.json",
+    "./svg/*": "./svg/*"
+  }
+}

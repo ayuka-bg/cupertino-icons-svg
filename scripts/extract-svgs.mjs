@@ -5,7 +5,7 @@ import path from "node:path";
 import opentype from "opentype.js";
 
 const ROOT = new URL("..", import.meta.url).pathname;
-const SRC_DIR = path.join(ROOT, "cupertino_icons-1.0.8");
+const SRC_DIR = path.join(ROOT, "_flutter_packages", "third_party", "packages", "cupertino_icons");
 const INDEX_HTML = path.join(SRC_DIR, "index.html");
 const FONT_PATH = path.join(SRC_DIR, "assets", "CupertinoIcons.ttf");
 const OUT_DIR = path.join(ROOT, "svg");

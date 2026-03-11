@@ -43,7 +43,14 @@ Then open **http://localhost:3333/gallery.html** in your browser. The gallery li
 
 ### Development
 
-This repo bundles the original Flutter `cupertino_icons` package under `cupertino_icons-1.0.8/` and uses a build script to:
+This repo uses the official [cupertino_icons](https://github.com/flutter/packages/tree/main/third_party/packages/cupertino_icons) source from the Flutter packages repo via a git submodule. **First-time setup:** ensure the submodule is cloned and sparse-checkout is set so only the icon package is checked out:
+
+```bash
+git submodule update --init
+./scripts/init-cupertino-source.sh
+```
+
+Then the build script will:
 
 - Parse icon names from `index.html`
 - Read glyphs from `assets/CupertinoIcons.ttf`

@@ -33,7 +33,7 @@ You can also inspect `icons.json` for a machine-readable manifest of all icon na
 
 ### Icon gallery
 
-To browse all icons locally, run a static server and open the gallery:
+A [live gallery](https://ayuka-bg.github.io/cupertino-icons-svg/gallery.html) is published on GitHub Pages. To run it locally:
 
 ```bash
 npm run gallery

@@ -1,0 +1,39 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Prepare Pages artifact
+        run: |
+          mkdir deploy
+          cp gallery.html deploy/
+          cp icons.json deploy/
+          cp -r svg deploy/
+
+      - uses: actions/upload-pages-artifact@3
+        with:
+          path: deploy
+
+      - id: deployment
+        uses: actions/deploy-pages@4
